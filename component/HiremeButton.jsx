@@ -1,8 +1,11 @@
 'use client';
 
+import { useLanguage } from "@/context/LanguageContext";
+
 export default function HiremeButton() {
+  const { t } = useLanguage();
   return (
-    <button 
+    <button
       className="
         px-2 py-1
             text-[12px] 
@@ -26,7 +29,7 @@ export default function HiremeButton() {
         focus:outline-none
       "
     >
-      Hire me
+      {t("nav.hireMe")}
     </button>
   );
 }

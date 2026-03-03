@@ -3,16 +3,19 @@ import { useState } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 
+import { useLanguage } from "@/context/LanguageContext";
+
 const links = [
-  { name: "Home", path: "/" },
-  { name: "Services", path: "/services" },
-  { name: "Resume", path: "/resume" },
-  { name: "Work", path: "/work" },
-  { name: "Contact", path: "/contact" },
+  { key: "home", path: "/" },
+  { key: "services", path: "/services" },
+  { key: "resume", path: "/resume" },
+  { key: "work", path: "/work" },
+  { key: "contact", path: "/contact" },
 ]
 
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const { t } = useLanguage();
 
   return (
     <div className="md:hidden relative">
@@ -27,12 +30,12 @@ const MobileNav = () => {
           <nav className="flex flex-col space-y-8 text-center">
             {links.map((link) => (
               <Link
-                key={link.name}
+                key={link.key}
                 href={link.path}
                 className="text-white text-xl hover:text-gray-300 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
-                {link.name}
+                {t(`nav.${link.key}`)}
               </Link>
             ))}
           </nav>

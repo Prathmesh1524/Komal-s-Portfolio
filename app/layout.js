@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/component/Header";
 import PageTransiton from "@/component/PageTransition";
 import StairTransition from "@/component/StairTransition";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,13 +26,13 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header/>
-        <StairTransition/>
-        <PageTransiton>
-          {children}
-        </PageTransiton>
-
-        
+        <LanguageProvider>
+          <Header />
+          <StairTransition />
+          <PageTransiton>
+            {children}
+          </PageTransiton>
+        </LanguageProvider>
       </body>
     </html>
   );

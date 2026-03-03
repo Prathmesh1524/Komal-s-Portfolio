@@ -1,242 +1,120 @@
 "use client";
 
-import { useState } from "react";
-import { Send, Mail, User, MessageSquare, CheckCircle } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
+import { Mail, CheckCircle, Send, Info } from "lucide-react";
+import { useState } from "react";
 
 export default function ContactPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useLanguage();
+  const title = t("contact.title");
+  const subtitle = t("contact.subtitle");
+  const formLabels = t("contact.form");
+  const info = t("contact.info");
+
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    const templateParams = {
-      from_name: formData.name,
-      from_email: formData.email,
-      message: formData.message,
-    };
-    const templateID = "template_g8kr8qi";
-    const serviceID = "service_3rs67qd";
-    const publicKey = "10CG2U2CC15hSAk1P";
-
-    try {
-      await emailjs.send(serviceID, templateID, templateParams, publicKey);
-      console.log("Message sent successfully");
-        
-      
-
-      setIsSubmitted(true);
-      setFormData({ 
-        name: "",
-        email: "",
-        message: "",
-      });
-
-      setTimeout(() => {
-        setIsSubmitted(false);
-      }, 3000);
-    } catch (error) {
-      console.error("Error occurred while sending email:", error);
-      alert("Failed to send message. Please try again later.");
-    }
-
-    setIsSubmitting(false);
-  };
-
-  const handleInputChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    setIsSubmitted(true);
+    setTimeout(() => setIsSubmitted(false), 3000);
   };
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{
-        opacity: 1,
-        transition: {
-          delay: 2,
-          duration: 0.4,
-          ease: "easeIn",
-        },
-      }}
-      className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden"
+      animate={{ opacity: 1, transition: { duration: 0.4 } }}
+      className="min-h-screen pt-20 pb-12 px-4 md:px-8 lg:px-16 xl:px-24"
     >
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#58bc82] rounded-full mix-blend-screen filter blur-xl opacity-30 animate-blob"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#58bc82] rounded-full mix-blend-screen filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-40 left-40 w-80 h-80 bg-[#58bc82] rounded-full mix-blend-screen filter blur-xl opacity-15 animate-blob animation-delay-4000"></div>
-      </div>
-
-      {/* Floating Particles */}
-      <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-[#58bc82] rounded-full opacity-40 animate-float"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${3 + Math.random() * 4}s`,
-            }}
-          ></div>
-        ))}
-      </div>
-
-      <div className="relative z-10 w-full max-w-md">
-        {/* Header */}
-        <div className="text-center mb-8 animate-fade-in-down">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-[#58bc82] rounded-full mb-4 animate-bounce-slow">
-            <Mail className="w-8 h-8 text-black" />
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 text-primary rounded-full mb-4">
+            <Mail className="w-8 h-8" />
           </div>
-          <h1 className="text-3xl font-bold text-green-400 mb-2 animate-slide-in-left">
-            Let's Work Together
-          </h1>
-          <p className="text-gray-300 opacity-80 animate-slide-in-right animation-delay-200">
-            We'd love to hear from you. Send us a message!
-          </p>
+          <h1 className="text-4xl font-bold text-primary mb-4">{title}</h1>
+          <p className="text-gray-600 text-lg">{subtitle}</p>
         </div>
 
-   
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col items-center gap-6 w-full animate-fade-in-up animation-delay-400"
-        >
-      
-          <div className="w-full flex flex-col gap-2 group animate-slide-in-left animation-delay-600">
-            <label
-              htmlFor="name"
-              className="self-start text-[#58bc82] font-semibold flex items-center gap-2 transition-all duration-300 group-hover:translate-x-1"
-            >
-              <User className="w-4 h-4 animate-pulse" />
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-              className="rounded-lg px-4 py-4 w-full bg-gray-900 border-2 border-gray-700 text-white
-                focus:border-[#58bc82] transition-all duration-300 transform hover:scale-[1.02] 
-                focus:scale-[1.02] hover:shadow-lg focus:shadow-xl placeholder:text-gray-400 
-                placeholder:opacity-60"
-              placeholder="Enter your full name"
-            />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* Contact Details */}
+          <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 h-fit">
+            <h3 className="text-2xl font-semibold mb-6 text-gray-800">Direct Contact</h3>
+            <ul className="space-y-4">
+              <li className="flex items-center gap-4 text-gray-700">
+                <Mail className="text-primary w-5 h-5 flex-shrink-0" />
+                <a href={`mailto:${info.email}`} className="hover:text-primary transition-colors">
+                  {info.email}
+                </a>
+              </li>
+              <li className="flex items-center gap-4 text-gray-700">
+                <Info className="text-primary w-5 h-5 flex-shrink-0" />
+                <span>{info.big}</span>
+              </li>
+              <li className="flex items-center gap-4 text-gray-700">
+                <Info className="text-primary w-5 h-5 flex-shrink-0" />
+                <span>{info.agb}</span>
+              </li>
+              <li className="flex items-center gap-4 text-gray-700">
+                <Info className="text-primary w-5 h-5 flex-shrink-0" />
+                <span>{info.kvk}</span>
+              </li>
+            </ul>
           </div>
 
-          {/* Email Input */}
-          <div className="w-full flex flex-col gap-2 group animate-slide-in-right animation-delay-800">
-            <label
-              htmlFor="email"
-              className="self-start text-[#58bc82] font-semibold flex items-center gap-2 transition-all duration-300 group-hover:translate-x-1"
-            >
-              <Mail className="w-4 h-4 animate-pulse animation-delay-500" />
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-              className="rounded-lg px-4 py-4 w-full bg-gray-900 border-2 border-gray-700 text-white
-                focus:border-[#58bc82] transition-all duration-300 transform hover:scale-[1.02] 
-                focus:scale-[1.02] hover:shadow-lg focus:shadow-xl placeholder:text-gray-400 
-                placeholder:opacity-60"
-              placeholder="Enter your email address"
-            />
-          </div>
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  placeholder={formLabels.firstName}
+                  required
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                />
+                <input
+                  type="text"
+                  placeholder={formLabels.lastName}
+                  required
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                />
+              </div>
+              <input
+                type="email"
+                placeholder={formLabels.email}
+                required
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              />
+              <input
+                type="tel"
+                placeholder={formLabels.phone}
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              />
+              <textarea
+                placeholder={formLabels.message}
+                rows={4}
+                required
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary resize-none"
+              ></textarea>
 
-          {/* Message Input */}
-          <div className="w-full flex flex-col gap-2 group animate-slide-in-left animation-delay-1000">
-            <label
-              htmlFor="message"
-              className="self-start text-[#58bc82] font-semibold flex items-center gap-2 transition-all duration-300 group-hover:translate-x-1"
-            >
-              <MessageSquare className="w-4 h-4 animate-pulse animation-delay-1000" />
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleInputChange}
-              required
-              rows={4}
-              className="rounded-lg px-4 py-4 w-full bg-gray-900 border-2 border-gray-700 text-white
-                focus:border-[#58bc82] transition-all duration-300 transform hover:scale-[1.02] 
-                focus:scale-[1.02] hover:shadow-lg focus:shadow-xl placeholder:text-gray-400 
-                placeholder:opacity-60 resize-none"
-              placeholder="Tell us what's on your mind..."
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting || isSubmitted}
-            className="w-full flex items-center justify-center gap-3 px-4 py-4 rounded-full 
-              bg-gray-800 text-white font-semibold text-sm transition-all duration-500 
-              hover:bg-[#58bc82] hover:text-black transform hover:scale-105 hover:shadow-xl 
-              active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
-              animate-slide-in-up animation-delay-1200 relative overflow-hidden group"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-[#58bc82] to-[#4a9d6f] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-
-            <div className="relative z-10 flex items-center gap-3">
-              {isSubmitting ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Sending...
-                </>
-              ) : isSubmitted ? (
-                <>
-                  <CheckCircle className="w-5 h-5 animate-bounce" />
-                  Message Sent!
-                </>
-              ) : (
-                <>
-                  <Send className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-                  Send Message
-                </>
-              )}
+              <button
+                type="submit"
+                disabled={isSubmitted}
+                className="w-full flex items-center justify-center gap-2 bg-primary text-white py-4 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+              >
+                {isSubmitted ? (
+                  <>
+                    <CheckCircle className="w-5 h-5" />
+                    Sent Complete
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    {formLabels.send}
+                  </>
+                )}
+              </button>
             </div>
-          </button>
-
-          {/* Success Message */}
-          {isSubmitted && (
-            <div className="w-full text-center p-4 bg-[#58bc82] bg-opacity-20 border border-[#58bc82] rounded-lg animate-fade-in">
-              <p className="text-black font-semibold">
-                Thank you! We'll get back to you soon.
-              </p>
-            </div>
-          )}
-        </form>
-
-        {/* Contact Info */}
-        <div className="mt-8 text-center animate-fade-in-up animation-delay-1400">
-          <p className="text-gray-400 text-sm">
-            Or reach us directly at{" "}
-            <a
-              href="mailto:prathmeshdeshpande054@gmail.com"
-              className="text-[#58bc82] hover:underline transition-all duration-300 hover:text-[#4a9d6f]"
-            >
-              prathmeshdeshpande054@gmail.com
-            </a>
-          </p>
+          </form>
         </div>
       </div>
     </motion.div>

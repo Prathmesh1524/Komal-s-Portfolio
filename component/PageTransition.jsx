@@ -11,9 +11,9 @@ export default function PageTransiton({ children }) {
         <motion.div initial={{ opacity: 1 }}
           animate={{
             opacity: 0, transition:
-              { delay: 1, duration: 0.2, ease: 'easeOut' }
+              { delay: 0.1, duration: 0.4, ease: 'easeOut' }
           }}
-          className="h-screen w-screen fixed bg-black top-0 pointer-events-none"
+          className="h-screen w-screen fixed bg-white top-0 pointer-events-none z-40"
         />
 
         {children}</div>

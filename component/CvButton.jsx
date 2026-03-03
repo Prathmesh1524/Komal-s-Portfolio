@@ -1,8 +1,10 @@
 'use client';
 
 import { FiDownload } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function CvButton() {
+  const { t } = useLanguage();
   return (
     <a
       href="https://drive.google.com/drive/folders/1ydYbJH22DHoyp1iR-HXOm6LL-pmCa3so?usp=sharing"
@@ -34,7 +36,7 @@ export default function CvButton() {
         "
       >
         <span className="flex gap-2 items-center">
-          Download CV <FiDownload className="text-lg" />
+          {t("home.downloadCv")} <FiDownload className="text-lg" />
         </span>
       </button>
     </a>
