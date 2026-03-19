@@ -31,7 +31,7 @@ export default function Header() {
           >
             {language === "en" ? "NL" : "EN"}
           </button>
-          <ThemeToggle />
+      
         </div>
         {/* Mobile View */}
         <div className="xl:hidden flex items-center gap-4">
