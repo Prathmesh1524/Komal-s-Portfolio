@@ -1,8 +1,7 @@
 import { animate, motion } from "framer-motion"
 
-
 const stairsVariants={
-    inital:{
+    initial:{
         top: "0%",
     },
     animate:{
@@ -23,11 +22,11 @@ const Stairs = () => {
     {[...Array(6)].map((_,index)=>{
         return (<motion.div key={index} variants={stairsVariants}  initial="initial"
         animate="animate" exit="exit" transition={{
-            duration:0.2,
+            duration:0.15,
             ease:"easeOut",
-            delay:reveseIndex(index)*0.1,
+            delay:reveseIndex(index)*0.05,
         }}
-        className="w-full h-full bg-white relative"
+        className="w-full h-full bg-black dark:bg-white relative"
         />
     )
     })}

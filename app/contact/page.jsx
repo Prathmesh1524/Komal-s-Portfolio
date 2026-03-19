@@ -4,8 +4,10 @@ import { useState } from "react";
 import { Send, Mail, User, MessageSquare, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function ContactPage() {
+  const { t } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -31,8 +33,6 @@ export default function ContactPage() {
       await emailjs.send(serviceID, templateID, templateParams, publicKey);
       console.log("Message sent successfully");
         
-      
-
       setIsSubmitted(true);
       setFormData({ 
         name: "",
@@ -64,7 +64,7 @@ export default function ContactPage() {
       animate={{
         opacity: 1,
         transition: {
-          delay: 2,
+          delay: 0.2,
           duration: 0.4,
           ease: "easeIn",
         },
@@ -78,49 +78,31 @@ export default function ContactPage() {
         <div className="absolute top-40 left-40 w-80 h-80 bg-[#58bc82] rounded-full mix-blend-screen filter blur-xl opacity-15 animate-blob animation-delay-4000"></div>
       </div>
 
-      {/* Floating Particles */}
-      <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-[#58bc82] rounded-full opacity-40 animate-float"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${3 + Math.random() * 4}s`,
-            }}
-          ></div>
-        ))}
-      </div>
-
-      <div className="relative z-10 w-full max-w-md">
+      <div className="relative z-10 w-full max-w-md mt-20">
         {/* Header */}
         <div className="text-center mb-8 animate-fade-in-down">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-[#58bc82] rounded-full mb-4 animate-bounce-slow">
             <Mail className="w-8 h-8 text-black" />
           </div>
           <h1 className="text-3xl font-bold text-green-400 mb-2 animate-slide-in-left">
-            Let's Work Together
+            {t.contact.title}
           </h1>
           <p className="text-gray-300 opacity-80 animate-slide-in-right animation-delay-200">
-            We'd love to hear from you. Send us a message!
+            {t.contact.desc}
           </p>
         </div>
 
-   
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-center gap-6 w-full animate-fade-in-up animation-delay-400"
         >
-      
           <div className="w-full flex flex-col gap-2 group animate-slide-in-left animation-delay-600">
             <label
               htmlFor="name"
               className="self-start text-[#58bc82] font-semibold flex items-center gap-2 transition-all duration-300 group-hover:translate-x-1"
             >
               <User className="w-4 h-4 animate-pulse" />
-              Name
+              {t.contact.nameLabel}
             </label>
             <input
               type="text"
@@ -133,18 +115,17 @@ export default function ContactPage() {
                 focus:border-[#58bc82] transition-all duration-300 transform hover:scale-[1.02] 
                 focus:scale-[1.02] hover:shadow-lg focus:shadow-xl placeholder:text-gray-400 
                 placeholder:opacity-60"
-              placeholder="Enter your full name"
+              placeholder={t.contact.namePlaceholder}
             />
           </div>
 
-          {/* Email Input */}
           <div className="w-full flex flex-col gap-2 group animate-slide-in-right animation-delay-800">
             <label
               htmlFor="email"
               className="self-start text-[#58bc82] font-semibold flex items-center gap-2 transition-all duration-300 group-hover:translate-x-1"
             >
               <Mail className="w-4 h-4 animate-pulse animation-delay-500" />
-              Email
+              {t.contact.emailLabel}
             </label>
             <input
               type="email"
@@ -157,18 +138,17 @@ export default function ContactPage() {
                 focus:border-[#58bc82] transition-all duration-300 transform hover:scale-[1.02] 
                 focus:scale-[1.02] hover:shadow-lg focus:shadow-xl placeholder:text-gray-400 
                 placeholder:opacity-60"
-              placeholder="Enter your email address"
+              placeholder={t.contact.emailPlaceholder}
             />
           </div>
 
-          {/* Message Input */}
           <div className="w-full flex flex-col gap-2 group animate-slide-in-left animation-delay-1000">
             <label
               htmlFor="message"
               className="self-start text-[#58bc82] font-semibold flex items-center gap-2 transition-all duration-300 group-hover:translate-x-1"
             >
               <MessageSquare className="w-4 h-4 animate-pulse animation-delay-1000" />
-              Message
+              {t.contact.messageLabel}
             </label>
             <textarea
               id="message"
@@ -181,7 +161,7 @@ export default function ContactPage() {
                 focus:border-[#58bc82] transition-all duration-300 transform hover:scale-[1.02] 
                 focus:scale-[1.02] hover:shadow-lg focus:shadow-xl placeholder:text-gray-400 
                 placeholder:opacity-60 resize-none"
-              placeholder="Tell us what's on your mind..."
+              placeholder={t.contact.messagePlaceholder}
             />
           </div>
 
@@ -200,42 +180,30 @@ export default function ContactPage() {
               {isSubmitting ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Sending...
+                  {t.contact.sending}
                 </>
               ) : isSubmitted ? (
                 <>
                   <CheckCircle className="w-5 h-5 animate-bounce" />
-                  Message Sent!
+                  {t.contact.sent}
                 </>
               ) : (
                 <>
                   <Send className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-                  Send Message
+                  {t.contact.sendBtn}
                 </>
               )}
             </div>
           </button>
-
-          {/* Success Message */}
-          {isSubmitted && (
-            <div className="w-full text-center p-4 bg-[#58bc82] bg-opacity-20 border border-[#58bc82] rounded-lg animate-fade-in">
-              <p className="text-black font-semibold">
-                Thank you! We'll get back to you soon.
-              </p>
-            </div>
-          )}
         </form>
 
         {/* Contact Info */}
         <div className="mt-8 text-center animate-fade-in-up animation-delay-1400">
-          <p className="text-gray-400 text-sm">
-            Or reach us directly at{" "}
-            <a
-              href="mailto:prathmeshdeshpande054@gmail.com"
-              className="text-[#58bc82] hover:underline transition-all duration-300 hover:text-[#4a9d6f]"
-            >
-              prathmeshdeshpande054@gmail.com
-            </a>
+          <p className="text-gray-400 text-sm mb-2">
+            {t.contact.orReachUs}
+          </p>
+          <p className="text-green-400 font-semibold text-[13px] md:text-sm tracking-wide bg-gray-900/50 p-3 rounded-lg border border-green-500/20 shadow-[0_0_15px_rgba(88,188,130,0.1)]">
+            {t.contact.contactInfo}
           </p>
         </div>
       </div>

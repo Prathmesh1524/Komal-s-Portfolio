@@ -3,6 +3,8 @@ import "./globals.css";
 import Header from "@/component/Header";
 import PageTransiton from "@/component/PageTransition";
 import StairTransition from "@/component/StairTransition";
+import { LanguageProvider } from "./context/LanguageContext";
+import { ThemeProvider } from "@/component/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,23 +17,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Prathmesh's Portfolio",
-  description: "Portfolio",
+  title: "Komal Gat - Dentist",
+  description: "Portfolio of Komal Gat, BIG-registered Dentist",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased transition-colors duration-300`}
+        suppressHydrationWarning
       >
-        <Header/>
-        <StairTransition/>
-        <PageTransiton>
-          {children}
-        </PageTransiton>
-
-        
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <LanguageProvider>
+            <Header/>
+            <StairTransition/>
+            <PageTransiton>
+              {children}
+            </PageTransiton>
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -2,17 +2,19 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
-
-const links = [
-  { name: "Home", path: "/" },
-  { name: "Services", path: "/services" },
-  { name: "Resume", path: "/resume" },
-  { name: "Work", path: "/work" },
-  { name: "Contact", path: "/contact" },
-]
+import { useLanguage } from "../app/context/LanguageContext";
 
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const { t } = useLanguage();
+
+  const links = [
+    { name: t.nav.home, path: "/" },
+    { name: t.nav.affinity, path: "/services" },
+    { name: t.nav.about, path: "/resume" },
+    { name: t.nav.clients, path: "/work" },
+    { name: t.nav.contact, path: "/contact" },
+  ]
 
   return (
     <div className="md:hidden relative">

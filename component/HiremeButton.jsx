@@ -1,6 +1,9 @@
 'use client';
+import { useLanguage } from "../app/context/LanguageContext";
 
 export default function HiremeButton() {
+  const { t } = useLanguage();
+
   return (
     <button 
       className="
@@ -26,7 +29,7 @@ export default function HiremeButton() {
         focus:outline-none
       "
     >
-      Hire me
+      {t.nav.appointment}
     </button>
   );
 }

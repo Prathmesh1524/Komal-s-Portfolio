@@ -1,18 +1,19 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const links = [
-  { name: "Home", path: "/" },
-  { name: "Services", path: "/services" },
-  { name: "Resume", path: "/resume" },
-  { name: "Work", path: "/work" },
-  { name: "Contact", path: "/contact" },
-];
+import { useLanguage } from "../app/context/LanguageContext";
 
 export const Nav = () => {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
+  const links = [
+    { name: t.nav.home, path: "/" },
+    { name: t.nav.affinity, path: "/services" },
+    { name: t.nav.about, path: "/resume" },
+    { name: t.nav.clients, path: "/work" },
+    { name: t.nav.contact, path: "/contact" },
+  ];
 
   return (
     <nav className="flex gap-8">
